@@ -26,7 +26,7 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
 
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.toLowerCase()
+  const keyword = req.query.keyword.trim().toLowerCase()
   // 獲得符合關鍵字的餐廳列表
   const restaurants = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
