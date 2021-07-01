@@ -31,7 +31,16 @@ app.get('/search', (req, res) => {
   const restaurants = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
   })
-  res.render('index', { restaurants, keyword })
+  if (restaurants.length === 0) {
+    const rawCategory = []
+    restaurantList.results.forEach(restaurant => {
+      rawCategory.push(restaurant.category)
+    })
+    const category = [...new Set(rawCategory)]
+    res.render('no_result', { keyword, category })
+  } else {
+    res.render('index', { restaurants, keyword })
+  }
 })
 
 app.listen(port, () => {

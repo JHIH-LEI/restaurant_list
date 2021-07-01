@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="/stylesheets/index.css">
+<!-- search bar -->
+<div class="container search-bar">
+  <div class="search-bar-outer mb-2">
+    <div class="search-bar-inner">
+      <form action="/search">
+        <h4 class="mb-2">尋找餐廳：</h4>
+        <div class="input-group">
+          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+            value="{{keyword}}" aria-describedby="search-button">
+          <div class="input-group-append">
+            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+      <div class="mt-2">
+        <span class="badge">試試看：</span>
+        {{#each category}}
+        <a href="/search?keyword={{this}}" class="badge badge-light rounded-circle mx-2">
+          <span>{{this}}</span>
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center container mt-5">
+  <div>
+    <i class="fas fa-search d-flex justify-content-center mb-3"></i>
+    <p class="d-flex justify-content-center mb-3">找不到結果</p>
+    <p class="d-flex justify-content-center mb-3 text-secondary">嘗試不同或更常見的關鍵字</p>
+  </div>
+</div>
