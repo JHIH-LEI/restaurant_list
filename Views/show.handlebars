@@ -1,18 +1,30 @@
 <link rel="stylesheet" href="/stylesheets/show.css">
 <h1 class="mb-1 restaurant-show-title">{{restaurant.name}}</h1>
+<p id="category" class="mb-1">
+  {{restaurant.category}}
+</p>
 <div class="container">
   <div class="row">
     <div class="col-12 col-md-10 mx-auto">
 
-      <p class="mb-1">
+      <div id="top-side" class="d-flex align-items-center flex-wrap">
+        <img class="rounded mx-auto d-block mb-4 w-100" src="{{restaurant.image}}" alt="{{restaurant.name}}"
+          style="max-width: 600px;">
+
+        <p class="mx-auto mb-3">
+          {{restaurant.description}}
+        </p>
+      </div>
+
+      <p class="mb-1 d-flex justify-content-center">
         <span class="text-secondary">
-          <i class="fas fa-utensils pr-2"></i>
-          類別：
+          <i class="fas fa-mobile-alt pr-2"></i>
+          電話：
         </span>
-        {{restaurant.category}}
+        {{restaurant.phone}}
       </p>
 
-      <p class="mb-1">
+      <p class="mb-1 d-flex justify-content-center">
         <span class="text-secondary">
           <i class="fas fa-map-marker-alt pr-2"></i>
           地址：
@@ -23,20 +35,11 @@
         </a>
       </p>
 
-      <p class="mb-1">
-        <span class="text-secondary">
-          <i class="fas fa-mobile-alt pr-2"></i>
-          電話：
-        </span>
-        {{restaurant.phone}}
-      </p>
+      <iframe class="rounded mx-auto d-block mb-4 mt-3" width="600" height="400" style="border:0" loading="lazy"
+        allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAVdWCV59jqcIQDxs2SmLDPDCsCvnsi1Vw
+          &q={{restaurant.name}}">
+      </iframe>
 
-      <p class="mb-5">
-        {{restaurant.description}}
-      </p>
-
-      <img class="rounded mx-auto d-block mb-4 w-100" src="{{restaurant.image}}" alt="{{restaurant.name}}"
-        style="max-width: 600px;">
     </div>
   </div>
 </div>
