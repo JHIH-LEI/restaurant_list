@@ -12,13 +12,15 @@ app.set('view engine', 'handlebars')
 app.use(express.static(`public`))
 
 app.get('/', (req, res) => {
-  // 評分由低到高,由高到低
+  // 將餐廳名單重新排序，根據評分由低到高/由高到低,不需排序的話就直接傳原始資料
   if (req.query.order === 'asc' && req.query.sortBy === 'rating') {
     restaurantList.results.sort((a, b) => {
+      // 評分由低到高
       return a.rating - b.rating
     })
   } else if (req.query.order === 'desc' && req.query.sortBy === 'rating') {
     restaurantList.results.sort((a, b) => {
+      // 評分由高到低
       return b.rating - a.rating
     })
   }
@@ -40,6 +42,7 @@ app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
   // 獲得符合關鍵字的餐廳列表
   const restaurants = restaurantList.results.filter(restaurant => {
+    // 餐廳名稱or類別關鍵字都能查找餐廳
     return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
   })
 
