@@ -31,6 +31,9 @@ app.get('/search', (req, res) => {
   const restaurants = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
   })
+
+  // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
+  
   if (restaurants.length === 0) {
     const rawCategory = []
     restaurantList.results.forEach(restaurant => {
