@@ -12,6 +12,17 @@ app.set('view engine', 'handlebars')
 app.use(express.static(`public`))
 
 app.get('/', (req, res) => {
+  // 評分由低到高,由高到低
+  if (req.query.order === 'asc' && req.query.sortBy === 'rating') {
+    restaurantList.results.sort((a, b) => {
+      return a.rating - b.rating
+    })
+  } else if (req.query.order === 'desc' && req.query.sortBy === 'rating') {
+    restaurantList.results.sort((a, b) => {
+      return b.rating - a.rating
+    })
+  }
+
   res.render('index', { restaurants: restaurantList.results })
 })
 
@@ -33,7 +44,7 @@ app.get('/search', (req, res) => {
   })
 
   // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
-  
+
   if (restaurants.length === 0) {
     const rawCategory = []
     restaurantList.results.forEach(restaurant => {
