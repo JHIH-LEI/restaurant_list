@@ -2,8 +2,21 @@ const express = require('express')
 const app = express()
 const restaurantList = require('./restaurant.json')
 const exphbs = require('express-handlebars')
+const mongoose = require('mongoose')
 
 const port = 3000
+
+mongoose.connect('mongodb://localhost/mongodb-data', { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+
+//取得資料庫連線狀態
+db.on('error', () => {
+  console.log('mongodb error!')
+})
+
+db.once('open', () => {
+  console.log('mongodb connected')
+})
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -53,6 +66,7 @@ app.get('/search', (req, res) => {
     restaurantList.results.forEach(restaurant => {
       rawCategory.push(restaurant.category)
     })
+    // 產生不重複的餐廳類別，作為推薦關鍵字給使用者
     const category = [...new Set(rawCategory)]
     res.render('no_result', { keyword, category })
   } else {
