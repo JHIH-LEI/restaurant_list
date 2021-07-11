@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
-//新增一筆餐廳資料
+//新增一筆餐廳資料頁面
 app.get('/restaurant/new', (req, res) => {
   Restaurant.find()
     .lean()
@@ -62,6 +62,7 @@ app.get('/restaurant/new', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// 新增一筆餐廳資料
 app.post('/restaurant', (req, res) => {
   const name = req.body.name
   const category = req.body.category
@@ -78,10 +79,11 @@ app.post('/restaurant', (req, res) => {
 // 使用者可以看個別餐廳的show page
 app.get('/restaurants/:restaurant_id', (req, res) => {
   // 根據不同的id回傳不同的資料
-  const restaurant = restaurantList.results.find(restaurant => {
-    return restaurant.id.toString() === req.params.restaurant_id
-  })
-  res.render('show', { restaurant })
+  const id = req.params.restaurant_id
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('show', { restaurant }))
+    .catch(error => console.log(error))
 })
 
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
