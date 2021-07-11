@@ -4,6 +4,7 @@ const restaurantList = require('./restaurant.json')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const Restaurant = require('./Models/restaurant')
+const bodyParser = require('body-parser')
 
 const port = 3000
 
@@ -22,8 +23,8 @@ db.once('open', () => {
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
-// 設定靜態資料來源
-app.use(express.static(`public`))
+// 設定靜態資料來源與bodyParser用於處理表單回傳資料
+app.use(express.static(`public`), bodyParser.urlencoded({ extended: ture }))
 
 app.get('/', (req, res) => {
   Restaurant.find()
@@ -45,6 +46,15 @@ app.get('/', (req, res) => {
     })
     .catch(error => console.log(error))
 })
+
+//新增一筆餐廳資料
+app.get('/restaurant/new', (req, res) => {
+  Restaurant.find()
+    .lean()
+    .then(restaurant => res.render('new', { restaurant }))
+    .catch(error => console.log(error))
+})
+
 
 // 使用者可以看個別餐廳的show page
 app.get('/restaurants/:restaurant_id', (req, res) => {
