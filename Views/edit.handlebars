@@ -1,16 +1,18 @@
-<form id="form" class="needs-validation p-5" action="/restaurant" method="post">
+<form id="form" class="needs-validation p-5" action="/restaurant/{{restaurant._id}}/edit" method="post">
   <div class="col-md-6 mb-3">
     <div class="form-group">
       <label for="name">餐廳名稱</label>
-      <input type="text" class="form-control" id="name" name="name" aria-describedby="name" required>
+      <input type="text" class="form-control" id="name" name="name" aria-describedby="name" value="{{restaurant.name}}"
+        required>
       <div class="invalid-feedback">
         請填寫餐廳名稱
-      </div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="category">餐廳類別</label>
-      <input list="categorys" class="form-control" name="category" id="category" required>
+      <input list="categorys" class="form-control" name="category" id="category" value="{{restaurant.category}}"
+        required>
       <datalist id="categorys">
         {{#each categoryList}}
         <option>{{this}}</option>
@@ -23,7 +25,8 @@
 
     <div class="form-group">
       <label for="rating">餐廳評分</label>
-      <input type="number" step="0.1" class="form-control" id="rating" name="rating" min="0" max="5" required>
+      <input type="number" step="0.1" class="form-control" id="rating" name="rating" min="0" max="5"
+        value="{{restaurant.rating}}" required>
       <div class="invalid-feedback">
         請評分餐廳，滿分為5
       </div>
@@ -31,12 +34,12 @@
 
     <div class="form-group">
       <label for="image">餐廳圖片網址(選填)</label>
-      <input type="text" class="form-control" id="image" name="image">
+      <input type="text" class="form-control" id="image" name="image" value="{{restaurant.image}}">
     </div>
 
     <div class="form-group">
       <label for="location">餐廳地址</label>
-      <input type="text" class="form-control" id="location" name="location" required>
+      <input type="text" class="form-control" id="location" name="location" value="{{restaurant.location}}" required>
       <div class="invalid-feedback">
         請填寫地址
       </div>
@@ -44,7 +47,8 @@
 
     <div class="form-group">
       <label for="phone">聯絡電話</label>
-      <input type="text" class="form-control" id="phone" name="phone" inputmode="numeric" required>
+      <input type="text" class="form-control" id="phone" name="phone" inputmode="numeric" value="{{restaurant.phone}}"
+        required>
       <div class="invalid-feedback">
         請填寫電話
       </div>
@@ -52,13 +56,14 @@
 
     <div class="form-group">
       <label for="description">餐廳簡介(選填)</label>
-      <textarea name="description" class="form-control" id="description" cols="30" rows="5"></textarea>
+      <textarea name="description" class="form-control" id="description" cols="30"
+        rows="5">{{restaurant.description}}</textarea>
     </div>
   </div>
 
   <div class="container-fluid d-flex justify-content-end mr-5 pr-5">
     <div class="col-md-6 d-flex mr-5 pr-5">
-      <button id="submitButton" type="submit" class="btn btn-primary">create</button>
+      <button id="submitButton" type="submit" class="btn btn-primary">edit</button>
       <a href="/" class="border d-flex align-items-center p-2 ml-2">back</a>
     </div>
   </div>

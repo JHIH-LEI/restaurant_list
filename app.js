@@ -6,6 +6,17 @@ const mongoose = require('mongoose')
 const Restaurant = require('./Models/restaurant')
 const bodyParser = require('body-parser')
 
+const rawCategory = []
+let categoryList = []
+Restaurant.find()
+  .lean()
+  .then(restaurant => {
+    restaurant.forEach(restaurant => {
+      rawCategory.push(restaurant.category)
+      categoryList = [...new Set(rawCategory)]
+    })
+  })
+  .catch(error => console.log(error))
 const port = 3000
 
 mongoose.connect('mongodb://localhost/Restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -52,12 +63,7 @@ app.get('/restaurant/new', (req, res) => {
   Restaurant.find()
     .lean()
     .then(restaurant => {
-      const rawCategory = []
-      restaurant.forEach(restaurant => {
-        rawCategory.push(restaurant.category)
-      })
-      const category = [...new Set(rawCategory)]
-      res.render('new', { category })
+      res.render('new', { restaurant, categoryList })
     })
     .catch(error => console.log(error))
 })
@@ -86,6 +92,44 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//編輯餐廳頁面
+app.get('/restaurant/:restaurant_id/edit', (req, res) => {
+  const id = req.params.restaurant_id
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => {
+      res.render('edit', { restaurant, categoryList })
+    })
+    .catch(error => console.log(error))
+})
+
+// 編輯餐廳
+app.post('/restaurant/:restaurant_id/edit', (req, res) => {
+  const id = req.params.restaurant_id
+  //儲存表單資料
+  const name = req.body.name
+  const category = req.body.category
+  const location = req.body.location
+  const phone = req.body.phone
+  const rating = req.body.rating
+  const image = req.body.image
+  const description = req.body.description
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      //更新資料
+      restaurant.name = name
+      restaurant.category = category
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.rating = rating
+      restaurant.image = image
+      restaurant.description = description
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.log(error))
+})
+
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
@@ -98,13 +142,7 @@ app.get('/search', (req, res) => {
   // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
 
   if (restaurants.length === 0) {
-    const rawCategory = []
-    restaurantList.results.forEach(restaurant => {
-      rawCategory.push(restaurant.category)
-    })
-    // 產生不重複的餐廳類別，作為推薦關鍵字給使用者
-    const category = [...new Set(rawCategory)]
-    res.render('no_result', { keyword, category })
+    res.render('no_result', { keyword, categoryList })
   } else {
     res.render('index', { restaurants, keyword })
   }
