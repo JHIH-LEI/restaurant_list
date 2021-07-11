@@ -55,6 +55,15 @@ header {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+.card:hover {
+  color: #4592af;
+  transform: scale(1.02);
+}
+
+.delete:hover ,.edit:hover{
+   color: #dd2c15;
+}
+
 #deleteBtn {
   position: absolute;
   top:0 px;

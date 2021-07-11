@@ -67,14 +67,15 @@
 
         <div class="d-flex justify-content-end">
           {{!-- 編輯餐廳 --}}
-          <form action="/restaurant/{{this._id}}/edit">
-            <button class="btn d-inline-flex align-items-center"><i
+          <form action="/restaurant/{{this._id}}/edit" class="mx-3">
+            <button class="btn edit d-inline-flex align-items-center border"><i
                 class="fas fa-edit d-flex align-items-center"></i>edit</button>
           </form>
 
           {{!-- 刪除餐廳 --}}
           <form action="/restaurant/{{this._id}}/delete" method="POST">
-            <button class="btn delete d-inline-flex align-items-center"><i class="fas fa-trash-alt"></i>delete</button>
+            <button class="btn delete d-inline-flex align-items-center border"><i
+                class="fas fa-trash-alt"></i>delete</button>
           </form>
 
         </div>
@@ -84,6 +85,7 @@
   </div>
 </div>
 
+{{!-- 新增餐廳 --}}
 <form action="/restaurant/new">
   <button id="createBtn" class="btn btn-success btn-lg rounded-circle" type="submit"><span>+</span></button>
 </form>
