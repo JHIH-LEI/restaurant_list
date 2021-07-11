@@ -79,6 +79,23 @@ header {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+#createBtn {
+  width: 5em;
+  height: 5em;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  opacity: 80%;
+}
+
+
+#createBtn:hover {
+  opacity: 100%;
+}
+
+#createBtn>span {
+  font-size: 2em;
+}
 @media screen and (max-width: 992px) {
   
   .card img{
