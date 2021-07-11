@@ -3,10 +3,11 @@ const app = express()
 const restaurantList = require('./restaurant.json')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const Restaurant = require('./Models/restaurant')
 
 const port = 3000
 
-mongoose.connect('mongodb://localhost/mongodb-data', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/Restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
 //取得資料庫連線狀態
@@ -25,20 +26,24 @@ app.set('view engine', 'handlebars')
 app.use(express.static(`public`))
 
 app.get('/', (req, res) => {
-  // 將餐廳名單重新排序，根據評分由低到高/由高到低,不需排序的話就直接傳原始資料
-  if (req.query.order === 'asc' && req.query.sortBy === 'rating') {
-    restaurantList.results.sort((a, b) => {
-      // 評分由低到高
-      return a.rating - b.rating
+  Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      // 將餐廳名單重新排序，根據評分由低到高/由高到低,不需排序的話就直接傳原始資料
+      if (req.query.order === 'asc' && req.query.sortBy === 'rating') {
+        restaurants.sort((a, b) => {
+          // 評分由低到高
+          return a.rating - b.rating
+        })
+      } else if (req.query.order === 'desc' && req.query.sortBy === 'rating') {
+        restaurants.sort((a, b) => {
+          // 評分由高到低
+          return b.rating - a.rating
+        })
+      }
+      res.render('index', { restaurants })
     })
-  } else if (req.query.order === 'desc' && req.query.sortBy === 'rating') {
-    restaurantList.results.sort((a, b) => {
-      // 評分由高到低
-      return b.rating - a.rating
-    })
-  }
-
-  res.render('index', { restaurants: restaurantList.results })
+    .catch(error => console.log(error))
 })
 
 // 使用者可以看個別餐廳的show page
