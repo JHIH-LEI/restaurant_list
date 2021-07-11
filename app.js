@@ -24,7 +24,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
-app.use(express.static(`public`), bodyParser.urlencoded({ extended: ture }))
+app.use(express.static(`public`), bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
   Restaurant.find()
@@ -54,7 +54,6 @@ app.get('/restaurant/new', (req, res) => {
     .then(restaurant => res.render('new', { restaurant }))
     .catch(error => console.log(error))
 })
-
 
 // 使用者可以看個別餐廳的show page
 app.get('/restaurants/:restaurant_id', (req, res) => {
