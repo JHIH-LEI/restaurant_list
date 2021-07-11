@@ -133,7 +133,6 @@ app.post('/restaurant/:restaurant_id/edit', (req, res) => {
 // 刪除餐廳
 app.post('/restaurant/:restaurant_id/delete', (req, res) => {
   const id = req.params.restaurant_id
-  const name = req.body.name
   return Restaurant.findById(id)
     .then(restaurant => {
       return restaurant.remove()
@@ -145,20 +144,24 @@ app.post('/restaurant/:restaurant_id/delete', (req, res) => {
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  // 獲得符合關鍵字的餐廳列表
-  const restaurants = restaurantList.results.filter(restaurant => {
-    // 餐廳名稱or類別關鍵字都能查找餐廳
-    return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
-  })
+  return Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      // 獲得符合關鍵字的餐廳列表
+      restaurants = restaurants.filter(restaurant => {
+        // 餐廳名稱or類別關鍵字都能查找餐廳
+        return restaurant.name.toLowerCase().includes(keyword) || restaurant.category.toLowerCase().includes(keyword)
+      })
 
-  // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
-
-  if (restaurants.length === 0) {
-    res.render('no_result', { keyword, categoryList })
-  } else {
-    res.render('index', { restaurants, keyword })
-  }
+      // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
+      if (restaurants.length === 0) {
+        res.render('no_result', { keyword, categoryList })
+      } else {
+        res.render('index', { restaurants, keyword })
+      }
+    })
 })
+
 
 app.listen(port, () => {
   console.log(`Express is listening on http://localhost:${port}`)
