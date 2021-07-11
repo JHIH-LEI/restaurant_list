@@ -130,6 +130,18 @@ app.post('/restaurant/:restaurant_id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// 刪除餐廳
+app.post('/restaurant/:restaurant_id/delete', (req, res) => {
+  const id = req.params.restaurant_id
+  const name = req.body.name
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      return restaurant.remove()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
