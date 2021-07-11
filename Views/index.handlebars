@@ -39,10 +39,16 @@
 
 
 <!-- restaurant list -->
-<div class="container">
+<div id="restaurant-card" class="container">
   <div class="row row-cols-md-4 justify-content-center">
     {{#each restaurants}}
     <div class="card mx-3 mb-3">
+
+      {{!-- 刪除按鈕 --}}
+      <a id="deleteBtn" class="delete text-white btn-danger btn-sm rounded-circle" role="button"
+        href=" /restaurant/{{this._id}}/delete">X</a>
+
+      {{!-- 卡片內容 --}}
       <a href="/restaurants/{{this._id}}" class="text-secondary">
         <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
       </a>
@@ -58,8 +64,15 @@
           <i class="fas fa-star fa-xs"></i>
         </span>
 
-        <a href="/restaurant/{{this._id}}/edit" class="text-secondary d-flex justify-content-end"><i
-            class="fas fa-edit d-flex align-items-center"></i>edit</a>
+        <div class="d-flex justify-content-end">
+          {{!-- 編輯餐廳 --}}
+          <a href="/restaurant/{{this._id}}/edit" class="text-secondary d-inline-flex mx-3"><i
+              class="fas fa-edit d-flex align-items-center"></i>edit</a>
+
+          {{!-- 刪除餐廳 --}}
+          <a href="/restaurant/{{this._id}}/delete" class="delete text-secondary d-inline-flex align-items-center"><i
+              class="fas fa-trash-alt"></i>delete</a>
+        </div>
       </div>
     </div>
     {{/each}}

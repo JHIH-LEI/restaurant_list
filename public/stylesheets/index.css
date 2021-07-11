@@ -51,7 +51,19 @@ header {
 }
 
 .card {
+  position: relative;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#deleteBtn {
+  position: absolute;
+  top:0 px;
+  right: 0px;
+  opacity: 80%;
+}
+
+#deleteBtn:hover {
+  opacity: 100%;
 }
 
 .card img{
