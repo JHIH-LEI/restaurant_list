@@ -51,7 +51,27 @@ app.get('/', (req, res) => {
 app.get('/restaurant/new', (req, res) => {
   Restaurant.find()
     .lean()
-    .then(restaurant => res.render('new', { restaurant }))
+    .then(restaurant => {
+      const rawCategory = []
+      restaurant.forEach(restaurant => {
+        rawCategory.push(restaurant.category)
+      })
+      const category = [...new Set(rawCategory)]
+      res.render('new', { category })
+    })
+    .catch(error => console.log(error))
+})
+
+app.post('/restaurant', (req, res) => {
+  const name = req.body.name
+  const category = req.body.category
+  const location = req.body.location
+  const phone = req.body.phone
+  const rating = req.body.rating
+  const image = req.body.image
+  const description = req.body.description
+  return Restaurant.create({ name, category, location, phone, rating, image, description })
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
