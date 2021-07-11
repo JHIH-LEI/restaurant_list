@@ -40,26 +40,28 @@
 
 <!-- restaurant list -->
 <div class="container">
-  <div class="row row-cols-md-3">
+  <div class="row row-cols-md-4 justify-content-center">
     {{#each restaurants}}
-    <a href="/restaurants/{{this._id}}" class="text-secondary">
-      <div class="card mx-3 mb-3">
+    <div class="card mx-3 mb-3">
+      <a href="/restaurants/{{this._id}}" class="text-secondary">
         <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
-        <div class="card-body p-3">
-          <h6 class="card-title mb-1">{{this.name}}</h6>
+      </a>
+      <div class="card-body p-3">
+        <h6 class="card-title mb-1">{{this.name}}</h6>
 
-          <div class="restaurant-category mb-1">
-            <i class="fas fa-utensils pr-2"></i> {{this.category}}
-          </div>
-
-          <span class="badge badge-pill badge-danger font-weight-normal">
-            {{this.rating}}
-            <i class="fas fa-star fa-xs"></i>
-          </span>
-
+        <div class="restaurant-category mb-1">
+          <i class="fas fa-utensils pr-2"></i> {{this.category}}
         </div>
+
+        <span class="badge badge-pill badge-danger font-weight-normal">
+          {{this.rating}}
+          <i class="fas fa-star fa-xs"></i>
+        </span>
+
+        <a href="/restaurant/{{this._id}}/edit" class="text-secondary d-flex justify-content-end"><i
+            class="fas fa-edit d-flex align-items-center"></i>edit</a>
       </div>
-    </a>
+    </div>
     {{/each}}
   </div>
 </div>
