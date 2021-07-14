@@ -5,8 +5,8 @@ const methodOverride = require('method-override')
 
 const restaurantList = require('./restaurant.json')
 const exphbs = require('express-handlebars')
-const mongoose = require('mongoose')
 const Restaurant = require('./Models/restaurant')
+require('./config/mongoose.js')
 
 const app = express()
 
@@ -22,18 +22,6 @@ Restaurant.find()
   })
   .catch(error => console.log(error))
 const port = 3000
-
-mongoose.connect('mongodb://localhost/Restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-
-//取得資料庫連線狀態
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-
-db.once('open', () => {
-  console.log('mongodb connected')
-})
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
