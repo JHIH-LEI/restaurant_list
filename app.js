@@ -1,10 +1,14 @@
 const express = require('express')
-const app = express()
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+
+
 const restaurantList = require('./restaurant.json')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const Restaurant = require('./Models/restaurant')
-const bodyParser = require('body-parser')
+
+const app = express()
 
 const rawCategory = []
 let categoryList = []
@@ -36,6 +40,7 @@ app.set('view engine', 'handlebars')
 
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
 app.use(express.static(`public`), bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   Restaurant.find()
@@ -104,7 +109,7 @@ app.get('/restaurant/:restaurant_id/edit', (req, res) => {
 })
 
 // 編輯餐廳
-app.post('/restaurant/:restaurant_id/edit', (req, res) => {
+app.put('/restaurant/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   //儲存表單資料
   const name = req.body.name
@@ -131,7 +136,7 @@ app.post('/restaurant/:restaurant_id/edit', (req, res) => {
 })
 
 // 刪除餐廳
-app.post('/restaurant/:restaurant_id/delete', (req, res) => {
+app.delete('/restaurant/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   return Restaurant.findById(id)
     .then(restaurant => {

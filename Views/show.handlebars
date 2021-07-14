@@ -64,7 +64,7 @@
   </form>
 
   {{!-- 刪除 --}}
-  <form action="/restaurant/{{restaurant._id}}/delete" method="POST">
+  <form action="/restaurant/{{restaurant._id}}?_method=DELETE" method="POST">
     <button id="deleteBtn" class="btn btn-success btn-lg rounded-circle mx-2" type="submit"><i
         class="fas fa-trash-alt"></i></button>
   </form>

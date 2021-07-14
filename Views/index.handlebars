@@ -45,7 +45,7 @@
     <div class="card mx-3 mb-3">
 
       {{!-- 刪除按鈕 --}}
-      <form action="/restaurant/{{this._id}}/delete" method="POST">
+      <form action="/restaurant/{{this._id}}?_method=DELETE" method="POST">
         <button id="deleteBtn" class="delete text-white btn-danger btn-sm rounded-circle">X</button>
       </form>
 
@@ -73,7 +73,7 @@
           </form>
 
           {{!-- 刪除餐廳 --}}
-          <form action="/restaurant/{{this._id}}/delete" method="POST">
+          <form action="/restaurant/{{this._id}}?_method=DELETE" method="POST">
             <button class="btn delete d-inline-flex align-items-center border"><i
                 class="fas fa-trash-alt"></i>delete</button>
           </form>
