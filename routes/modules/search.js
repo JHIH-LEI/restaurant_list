@@ -1,5 +1,4 @@
-const express = require('express')
-const router = express.Router()
+const router = require('../../config/router.js')
 const Restaurant = require('../../Models/restaurant.js')
 
 const rawCategory = []
