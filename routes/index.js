@@ -7,7 +7,7 @@ const search = require('./modules/search')
 
 router.use('/', home)
 router.use('/restaurant', restaurant)
-router.use('/', search)
+router.use('/search', search)
 
 
 module.exports = router

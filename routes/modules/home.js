@@ -1,4 +1,5 @@
-const router = require('../../config/router.js')
+const express = require('express')
+const router = express.Router()
 const Restaurant = require('../../Models/restaurant.js')
 
 let rawCityList = []

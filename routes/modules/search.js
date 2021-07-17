@@ -1,4 +1,5 @@
-const router = require('../../config/router.js')
+const express = require('express')
+const router = express.Router()
 const Restaurant = require('../../Models/restaurant.js')
 
 const rawCategory = []
@@ -14,8 +15,9 @@ Restaurant.find()
   })
   .catch(error => console.log(error))
 
+
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
-router.get('/search', (req, res) => {
+router.get('/', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
   return Restaurant.find()
     .lean()
