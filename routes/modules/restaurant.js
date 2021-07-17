@@ -55,7 +55,7 @@ router.get('/:restaurant_id/edit', (req, res) => {
 })
 
 // 編輯餐廳
-router.put('/restaurant/:restaurant_id', (req, res) => {
+router.put('/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   //儲存表單資料
   const {name, category, location, phone, rating, image, description} = req.body
