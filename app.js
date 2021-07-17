@@ -4,9 +4,8 @@ const methodOverride = require('method-override')
 
 
 const restaurantList = require('./restaurant.json')
-const exphbs = require('express-handlebars')
-const Restaurant = require('./Models/restaurant')
 require('./config/mongoose.js')
+const exphbs = require('express-handlebars')
 const routes = require('./routes')
 
 const app = express()

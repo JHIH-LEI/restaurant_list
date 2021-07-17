@@ -15,7 +15,7 @@ Restaurant.find()
   .catch(error => console.log(error))
 
 //新增一筆餐廳資料頁面
-router.get('/restaurant/new', (req, res) => {
+router.get('/new', (req, res) => {
   Restaurant.find()
     .lean()
     .then(restaurant => {
@@ -25,7 +25,7 @@ router.get('/restaurant/new', (req, res) => {
 })
 
 // 新增一筆餐廳資料
-router.post('/restaurant', (req, res) => {
+router.post('/', (req, res) => {
   const {name, category, location, phone, rating, image, description} = req.body
   return Restaurant.create({ name, category, location, phone, rating, image, description })
     .then(() => res.redirect('/'))

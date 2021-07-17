@@ -14,10 +14,12 @@
         </div>
       </form>
 
-      {{!-- sort排序器 如果沒有關鍵字路由就有篩選評分按鈕--}}
+{{!-- sorts --}}
+<div class="d-flex container">
+        {{!-- sort排序器 如果沒有關鍵字路由就有篩選評分按鈕--}}
       {{#unless keyword}}
       <div class="d-flex justify-content-start mt-3 dropdown">
-        <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+        <button class="btn btn-sm btn-light dropdown-toggle mr-2" type="button" id="dropdownMenuButton"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           評分
         </button>
@@ -27,16 +29,32 @@
         </div>
       </div>
       {{/unless}}
-
+      {{!-- 篩選器 --}}
+ <div class="d-flex justify-content-start mt-3 dropdown">
+        <button class="btn btn-sm btn-light dropdown-toggle mr-2" type="button" id="dropdownMenuButton"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          sort
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/?order=asc&sortBy=name">A->Z</a>
+          <a class="dropdown-item" href="/?order=desc&sortBy=name">Z->A</a>
+          <div class="dropdown-item disabled">篩選地區:</div>
+          {{!-- 動態產生地區 --}}
+          {{#each cityList}}
+           <a class="dropdown-item" href="/?condition={{this}}&sortBy=location">{{this}}</a>
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
-</div>
+{{!-- 篩選器 --}}
+  </div>
+
 
 <div class="d-flex justify-content-center container mt-4">
   <p>一共找到{{restaurants.length}}間餐廳</p>
 </div>
-
 
 <!-- restaurant list -->
 <div id="restaurant-card" class="container">
@@ -86,6 +104,6 @@
 </div>
 
 {{!-- 新增餐廳 --}}
-<form action="/restaurant/new">
+<form action="/restaurant/new" method="GET">
   <button id="createBtn" class="btn btn-success btn-lg rounded-circle" type="submit"><span>+</span></button>
 </form>
