@@ -18,12 +18,18 @@ const restaurantSchema = new Schema({
   phone: String,
   rating: {
     type: Number,
-    required: true
+    required: true,
   },
   description: {
     type: String,
     require: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    index: true,
+    require: true
+  }
 })
 
 module.exports = mongoose.model('Restaurant', restaurantSchema)

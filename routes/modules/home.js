@@ -2,10 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../Models/restaurant.js')
 
-let rawCityList = []
+const rawCityList = []
 let cityList = []
 
 //取得縣市列表
+
 function updateCityList() {
   Restaurant.find()
   .lean()

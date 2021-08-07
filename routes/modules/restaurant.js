@@ -44,6 +44,7 @@ router.get('/:restaurant_id', (req, res) => {
 })
 
 //編輯餐廳頁面
+
 router.get('/:restaurant_id/edit', (req, res) => {
   const id = req.params.restaurant_id
   return Restaurant.findById(id)
@@ -55,13 +56,16 @@ router.get('/:restaurant_id/edit', (req, res) => {
 })
 
 // 編輯餐廳
+
 router.put('/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   //儲存表單資料
-  const {name, category, location, phone, rating, image, description} = req.body
+
+  const { name, category, location, phone, rating, image, description } = req.body
   return Restaurant.findById(id)
     .then(restaurant => {
       //更新資料
+
       restaurant.name = name
       restaurant.category = category
       restaurant.location = location
@@ -76,6 +80,7 @@ router.put('/:restaurant_id', (req, res) => {
 })
 
 // 刪除餐廳
+
 router.delete('/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
   return Restaurant.findById(id)
