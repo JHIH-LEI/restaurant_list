@@ -10,7 +10,8 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 router.get('/register', (req, res) => {
@@ -19,20 +20,29 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
+  const errors = []
+  if (!email || !password || !confirmPassword) {
+    errors.push({ message: '必填項不可空缺' })
+  }
   if (password !== confirmPassword) {
-    return console.log('密碼和確認密碼不一致')
+    errors.push({ message: '密碼和確認密碼不一致' })
+  }
+  if (errors.length) {
+    return res.render('register', { errors, name, email, password, confirmPassword })
   }
   User.findOne({ email })
     .then(user => {
       if (user) {
-        console.log('email已經被註冊過了')
+        errors.push({ message: 'Email已經被註冊過了' })
+        return res.render('register', { errors, name, email, password, confirmPassword })
       }
       return bcrypt
         .genSalt(10)
         .then(salt => bcrypt.hash(password, salt))
         .then(hash => User.create({ name, email, password: hash }))
+        .then(user => req.flash('success', '註冊成功'))
+        .then(() => res.render('register', { errors, success: req.flash('success') }))
     })
-    .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 

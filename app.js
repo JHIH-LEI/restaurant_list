@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const flash = require('connect-flash')
 const usePassport = require('./config/passport')
 require('dotenv').config()
 require('./config/mongoose.js')
@@ -19,10 +20,12 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+app.use(flash())
 usePassport(app)
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+  res.locals.error = req.flash('error') //登陸錯誤訊息
   next()
 })
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
