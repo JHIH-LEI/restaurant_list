@@ -20,6 +20,11 @@ app.use(session({
   saveUninitialized: true
 }))
 usePassport(app)
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
 app.use(express.static(`public`), bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
