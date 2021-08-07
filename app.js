@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const usePassport = require('./config/passport')
 require('dotenv').config()
 require('./config/mongoose.js')
 const exphbs = require('express-handlebars')
@@ -18,6 +19,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+usePassport(app)
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
 app.use(express.static(`public`), bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
