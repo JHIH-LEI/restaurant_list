@@ -8,7 +8,7 @@ const user = require('./modules/user')
 
 router.use('/restaurant', restaurant)
 router.use('/search', search)
-router.use('/user', user)
+router.use('/users', user)
 router.use('/', home)
 
 module.exports = router
