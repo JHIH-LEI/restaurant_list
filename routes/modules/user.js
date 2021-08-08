@@ -14,6 +14,17 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: true
 }))
 
+router.get('/auth/facebook', passport.authenticate('facebook', {
+  scope: ['email', 'public_profile']
+}))
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+  })
+);
+
 router.get('/register', (req, res) => {
   res.render('register')
 })
@@ -49,7 +60,7 @@ router.post('/register', (req, res) => {
 router.get('/logout', (req, res) => {
   req.logout()
   req.flash('success', '登出成功')
-  res.render('login', { success: req.flash('success') })
+  res.redirect('/users/login')
 })
 
 module.exports = router
