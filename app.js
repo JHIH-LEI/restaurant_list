@@ -27,6 +27,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.error = req.flash('error') //登陸錯誤訊息
   res.locals.success = req.flash('success')
+  res.locals.googleMapApi = process.env.GOOGLE_MAP_API_KEY
   next()
 })
 // 設定靜態資料來源與bodyParser用於處理表單回傳資料
