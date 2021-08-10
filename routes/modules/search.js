@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Restaurant = require('../../Models/restaurant.js')
+const Restaurant = require('../../models/restaurant.js')
 
 const rawCategory = []
 let categoryList = []
