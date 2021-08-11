@@ -1,0 +1,64 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mt-3">Register</h1>
+      {{> message}}
+      <form action="/users/register" method="POST" class="needs-validation" novalidate>
+        <div class="form-group my-3">
+          <label for="name">NickName<span class="text-secondary ml-2">(optional)</span>：</label>
+          <input class="form-control" type="text" name="name" id="name" placeholder="Alicia" value="{{name}}">
+        </div>
+        <div class="form-group my-3">
+          <label for="email">Email：</label>
+          <input class="form-control" type="text" name="email" id="email" placeholder="123@gmail.com"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{email}}" required>
+          <div class="invalid-feedback">
+            請輸入正確Email格式
+          </div>
+        </div>
+        <div class="form-group my-3">
+          <label for="password">Password：</label>
+          <input class="form-control" type="password" name="password" id="password" placeholder="********"
+            pattern="^[a-zA-Z0-9_.-]*$" value="{{password}}" required>
+          <div class="prompt">
+            <p class="text-secondary">請使用英文字母、數字</p>
+          </div>
+          <div class="invalid-feedback">
+            請輸入密碼
+          </div>
+        </div>
+        <div class="form-group my-3">
+          <label for="confirmPassword">Confirm Password：</label>
+          <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="********"
+            pattern="^[a-zA-Z0-9_.-]*$" value="{{confirmPassword}}" required>
+          <div class="invalid-feedback">
+            請輸入確認密碼
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Register</button>
+      </form>
+      <p class="lead mt-4">Have Account? <a href="/users/login">Login</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    'use strict'
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
