@@ -1,25 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant.js')
-
-const rawCategory = []
-let categoryList = []
-
-Restaurant.find()
-  .lean()
-  .then(restaurant => {
-    restaurant.forEach(restaurant => {
-      rawCategory.push(restaurant.category)
-      categoryList = [...new Set(rawCategory)]
-    })
-  })
-  .catch(error => console.log(error))
-
+const { getCategories } = require('../../tools/helper')
 
 // 使用者可以透過搜尋餐廳名稱或類別找到餐廳
 router.get('/', (req, res) => {
+  const userId = req.user._id
   const keyword = req.query.keyword.trim().toLowerCase()
-  return Restaurant.find()
+
+  return Restaurant.find({ userId })
     .lean()
     .then(restaurants => {
       // 獲得符合關鍵字的餐廳列表
@@ -30,7 +19,11 @@ router.get('/', (req, res) => {
 
       // 判斷是否有匹配結果，若無則回傳no_result，有則回傳index
       if (restaurants.length === 0) {
-        res.render('no_result', { keyword, categoryList })
+        const getCategoryList = getCategories(userId)
+        return getCategoryList
+          .then(categoryList => {
+            res.render('no_result', { keyword, categoryList })
+          })
       } else {
         res.render('index', { restaurants, keyword })
       }

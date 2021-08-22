@@ -1,23 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant.js')
-
-const rawCategory = []
-let categoryList = []
-
-Restaurant.find()
-  .lean()
-  .then(restaurant => {
-    restaurant.forEach(restaurant => {
-      rawCategory.push(restaurant.category)
-      categoryList = [...new Set(rawCategory)]
-    })
-  })
-  .catch(error => console.log(error))
+const { getCategories } = require('../../tools/helper')
 
 //新增一筆餐廳資料頁面
 router.get('/new', (req, res) => {
-  res.render('new', { categoryList })
+  const userId = req.user._id
+  let getCategoryList = getCategories(userId)
+  getCategoryList
+    .then(categoryList => {
+      res.render('new', { categoryList })
+    })
 })
 
 // 新增一筆餐廳資料
@@ -41,14 +34,19 @@ router.get('/:restaurant_id', (req, res) => {
 })
 
 //編輯餐廳頁面
-
 router.get('/:restaurant_id/edit', (req, res) => {
   const _id = req.params.restaurant_id
   const userId = req.user._id
+  const getCategoryList = getCategories(userId)
+  let restaurant = ''
   return Restaurant.findOne({ _id, userId })
     .lean()
-    .then(restaurant => {
-      res.render('edit', { restaurant, categoryList })
+    .then(data => {
+      restaurant = data
+      return getCategoryList
+        .then(categoryList => {
+          res.render('edit', { restaurant, categoryList })
+        })
     })
     .catch(error => console.log(error))
 })
@@ -88,6 +86,5 @@ router.delete('/:restaurant_id', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
-
 
 module.exports = router

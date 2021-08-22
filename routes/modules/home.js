@@ -25,8 +25,8 @@ function updateCityList() {
 
 
 router.get('/', (req, res) => {
-  const sortBy = req.query.sortBy ? req.query.sortBy : '_id'
-  const order = req.query.order ? req.query.order : 'asc'
+  const sortBy = req.query.sortBy || '_id'
+  const order = req.query.order || 'asc'
   const condition = req.query.condition
   updateCityList()
   if (condition) {
