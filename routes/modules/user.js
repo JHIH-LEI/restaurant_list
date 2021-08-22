@@ -40,8 +40,9 @@ router.post('/register', (req, res) => {
         .genSalt(10)
         .then(salt => bcrypt.hash(password, salt))
         .then(hash => User.create({ name, email, password: hash }))
-        .then(user => req.flash('success', '註冊成功'))
-        .then(() => res.render('register', { errors, success: req.flash('success') }))
+        .then(user => {
+          res.redirect(307, '/users/login')
+        })
     })
     .catch(err => console.log(err))
 })
